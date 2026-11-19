@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Orders - NovaMart</title>
+    <style>
+        body { font-family: Arial; background: #f0f5ff; padding: 30px; }
+        .container { max-width: 1000px; margin: auto; background: white; padding: 25px; border-radius: 12px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #174ea6; color: white; }
+        button { background: #174ea6; color: white; padding: 9px 12px; border: 0; border-radius: 5px; cursor: pointer; }
+        select { padding: 8px; }
+        a { color: #174ea6; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Manage Customer Orders</h2>
+
+    {% if orders %}
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Customer</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Update</th>
+        </tr>
+
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.buyer.name }}</td>
+            <td>{{ order.product.name }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₹{{ "%.2f"|format(order.total) }}</td>
+            <td>{{ order.status }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('update_order_status', order_id=order.id) }}">
+                    <select name="status">
+                        <option value="Pending" {% if order.status == "Pending" %}selected{% endif %}>Pending</option>
+                        <option value="Shipped" {% if order.status == "Shipped" %}selected{% endif %}>Shipped</option>
+                        <option value="Delivered" {% if order.status == "Delivered" %}selected{% endif %}>Delivered</option>
+                        <option value="Cancelled" {% if order.status == "Cancelled" %}selected{% endif %}>Cancelled</option>
+                    </select>
+                    <button type="submit">Update</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No customer orders yet.</p>
+    {% endif %}
+
+    <p><a href="{{ url_for('seller_dashboard') }}">Back to Seller Dashboard</a></p>
+</div>
+</body>
+</html>

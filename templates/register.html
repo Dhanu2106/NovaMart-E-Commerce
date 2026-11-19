@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - NovaMart</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="auth-container">
+    <h1>Join NovaMart</h1>
+    <p>Create your account</p>
+
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="POST">
+        <input type="text" name="name" placeholder="Full Name" required>
+
+        <input type="email" name="email" placeholder="Email Address" required>
+
+        <input type="password" name="password"
+               placeholder="Password (minimum 8 characters)"
+               minlength="8" required>
+
+        <label>Select Account Type</label>
+        <select name="role" required>
+            <option value="">Choose account type</option>
+            <option value="buyer">Buyer / Customer</option>
+            <option value="seller">Seller</option>
+        </select>
+
+        <button type="submit">Create Account</button>
+    </form>
+
+    <p>Already have an account?
+        <a href="{{ url_for('login') }}">Login</a>
+    </p>
+
+    <a href="{{ url_for('home') }}">Back to Home</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Orders - NovaMart</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1>My Orders</h1>
+
+    <a href="{{ url_for('buyer_dashboard') }}">Back to Shopping</a>
+
+    {% if orders %}
+    <table>
+        <tr>
+            <th>Order ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Status</th>
+        </tr>
+
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.product.name if order.product else 'Unavailable' }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>₹{{ "%.2f"|format(order.total) }}</td>
+            <td>{{ order.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>You have not placed any orders yet.</p>
+    {% endif %}
+
+</div>
+
+</body>
+</html>
